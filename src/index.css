@@ -2,95 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Student-friendly vibrant colors */
+    --background: 45 100% 98%;
+    --foreground: 220 30% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 30% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 30% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Friendly Blue */
+    --primary: 210 70% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Warm Orange */
+    --secondary: 28 100% 63%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent - Fresh Green */
+    --accent: 145 63% 49%;
+    --accent-foreground: 0 0% 100%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted - Soft gray */
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 210 70% 55%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Custom LMS Colors */
+    --student-blue: 210 85% 60%;
+    --student-orange: 28 100% 63%;
+    --student-green: 145 63% 49%;
+    --student-purple: 270 70% 65%;
+    --student-pink: 340 80% 65%;
+    --student-yellow: 45 100% 60%;
+    
+    /* Teacher palette - calmer */
+    --teacher-primary: 215 50% 45%;
+    --teacher-secondary: 220 20% 96%;
+    
+    /* Admin palette - professional */
+    --admin-primary: 220 60% 35%;
+    --admin-secondary: 220 15% 96%;
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(220 30% 20% / 0.08);
+    --shadow-card: 0 8px 30px -4px hsl(220 30% 20% / 0.12);
+    --shadow-glow-blue: 0 8px 40px -8px hsl(210 85% 60% / 0.4);
+    --shadow-glow-orange: 0 8px 40px -8px hsl(28 100% 63% / 0.4);
+    --shadow-glow-green: 0 8px 40px -8px hsl(145 63% 49% / 0.4);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 25% 10%;
+    --foreground: 45 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 25% 14%;
+    --card-foreground: 45 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 25% 14%;
+    --popover-foreground: 45 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 210 70% 60%;
+    --primary-foreground: 220 25% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 28 90% 55%;
+    --secondary-foreground: 220 25% 10%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 145 60% 45%;
+    --accent-foreground: 220 25% 10%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 220 20% 20%;
+    --muted-foreground: 220 15% 65%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 220 20% 25%;
+    --input: 220 20% 25%;
+    --ring: 210 70% 60%;
+
+    --sidebar-background: 220 25% 12%;
+    --sidebar-foreground: 45 20% 95%;
+    --sidebar-primary: 210 70% 60%;
+    --sidebar-primary-foreground: 220 25% 10%;
+    --sidebar-accent: 220 20% 18%;
+    --sidebar-accent-foreground: 45 20% 95%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-ring: 210 70% 60%;
   }
 }
 
@@ -100,6 +121,159 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Student-specific typography */
+  .student-text {
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* Professional typography */
+  .professional-text {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  /* Bouncy button animation for students */
+  .btn-bounce {
+    @apply transition-all duration-200;
+  }
+  
+  .btn-bounce:hover {
+    transform: scale(1.05) translateY(-2px);
+  }
+  
+  .btn-bounce:active {
+    transform: scale(0.98);
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Glow effects */
+  .glow-blue {
+    box-shadow: var(--shadow-glow-blue);
+  }
+  
+  .glow-orange {
+    box-shadow: var(--shadow-glow-orange);
+  }
+  
+  .glow-green {
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  /* Subject card gradients */
+  .gradient-math {
+    background: linear-gradient(135deg, hsl(var(--student-blue)) 0%, hsl(210 85% 70%) 100%);
+  }
+  
+  .gradient-english {
+    background: linear-gradient(135deg, hsl(var(--student-orange)) 0%, hsl(28 100% 73%) 100%);
+  }
+  
+  .gradient-science {
+    background: linear-gradient(135deg, hsl(var(--student-green)) 0%, hsl(145 63% 60%) 100%);
+  }
+  
+  .gradient-art {
+    background: linear-gradient(135deg, hsl(var(--student-purple)) 0%, hsl(270 70% 75%) 100%);
+  }
+  
+  .gradient-music {
+    background: linear-gradient(135deg, hsl(var(--student-pink)) 0%, hsl(340 80% 75%) 100%);
+  }
+}
+
+@layer utilities {
+  /* Wiggle animation for mascot */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  
+  .animate-wiggle {
+    animation: wiggle 0.5s ease-in-out infinite;
+  }
+
+  /* Float animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Pop-in animation */
+  @keyframes pop-in {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  
+  .animate-pop-in {
+    animation: pop-in 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Confetti burst */
+  @keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-200px) rotate(720deg); opacity: 0; }
+  }
+  
+  .animate-confetti {
+    animation: confetti 1.5s ease-out forwards;
+  }
+
+  /* Celebration bounce */
+  @keyframes celebrate-bounce {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(0.95); }
+    75% { transform: scale(1.05); }
+  }
+  
+  .animate-celebrate {
+    animation: celebrate-bounce 0.6s ease-in-out;
+  }
+
+  /* Slide up */
+  @keyframes slide-up {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out;
+  }
+
+  /* Star sparkle */
+  @keyframes sparkle {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+  }
+  
+  .animate-sparkle {
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+
+  /* Progress fill */
+  @keyframes progress-fill {
+    0% { width: 0%; }
+  }
+  
+  .animate-progress {
+    animation: progress-fill 1s ease-out forwards;
   }
 }
