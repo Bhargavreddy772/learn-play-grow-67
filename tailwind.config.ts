@@ -69,6 +69,8 @@ export default {
           purple: "hsl(var(--student-purple))",
           pink: "hsl(var(--student-pink))",
           yellow: "hsl(var(--student-yellow))",
+          cyan: "hsl(var(--student-cyan))",
+          red: "hsl(var(--student-red))",
         },
         teacher: {
           primary: "hsl(var(--teacher-primary))",
@@ -90,9 +92,11 @@ export default {
       boxShadow: {
         soft: "var(--shadow-soft)",
         card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
         "glow-blue": "var(--shadow-glow-blue)",
         "glow-orange": "var(--shadow-glow-orange)",
         "glow-green": "var(--shadow-glow-green)",
+        "glow-purple": "var(--shadow-glow-purple)",
       },
       keyframes: {
         "accordion-down": {
