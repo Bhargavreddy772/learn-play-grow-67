@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
+import { ChatBot } from '@/components/ChatBot';
 import { Button } from '@/components/ui/button';
 import { Mascot } from '@/components/Mascot';
 import { 
@@ -415,6 +416,9 @@ const Home: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* AI Chatbot */}
+      <ChatBot />
     </div>
   );
 };

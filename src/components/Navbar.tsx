@@ -6,6 +6,7 @@ import {
   ChevronDown, LogIn, UserPlus 
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SignInModal } from '@/components/SignInModal';
 
 const navLinks = [
   { 
@@ -27,6 +28,7 @@ const navLinks = [
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [showSignIn, setShowSignIn] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -92,19 +94,21 @@ export const Navbar: React.FC = () => {
             <Button
               variant="ghost"
               className="font-semibold"
-              onClick={() => navigate('/role-selection')}
+              onClick={() => setShowSignIn(true)}
             >
               <LogIn className="w-4 h-4 mr-2" />
               Sign In
             </Button>
             <Button
               className="bg-gradient-to-r from-student-blue to-student-purple hover:opacity-90 text-white font-semibold shadow-lg"
-              onClick={() => navigate('/role-selection')}
+              onClick={() => setShowSignIn(true)}
             >
               <UserPlus className="w-4 h-4 mr-2" />
               Get Started Free
             </Button>
           </div>
+          
+          <SignInModal isOpen={showSignIn} onClose={() => setShowSignIn(false)} />
 
           {/* Mobile menu button */}
           <button
@@ -134,14 +138,14 @@ export const Navbar: React.FC = () => {
                 <Button
                   variant="outline"
                   className="w-full justify-center"
-                  onClick={() => { setIsOpen(false); navigate('/role-selection'); }}
+                  onClick={() => { setIsOpen(false); setShowSignIn(true); }}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
                   Sign In
                 </Button>
                 <Button
                   className="w-full justify-center bg-gradient-to-r from-student-blue to-student-purple text-white"
-                  onClick={() => { setIsOpen(false); navigate('/role-selection'); }}
+                  onClick={() => { setIsOpen(false); setShowSignIn(true); }}
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
                   Get Started Free

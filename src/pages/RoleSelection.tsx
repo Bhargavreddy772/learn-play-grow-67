@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Mascot } from '@/components/Mascot';
-import { GraduationCap, BookOpenCheck, Settings, Sparkles, Star, Rocket, Heart, Users } from 'lucide-react';
+import { GraduationCap, BookOpenCheck, Sparkles, Star, Rocket, Heart, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const roles = [
@@ -32,7 +32,7 @@ const roles = [
   },
   {
     id: 'teacher',
-    title: 'Teacher Portal',
+    title: 'Instructor Portal',
     subtitle: 'Educators',
     description: 'Create courses, track progress, and inspire students',
     icon: BookOpenCheck,
@@ -41,18 +41,6 @@ const roles = [
     shadowClass: 'shadow-glow-orange',
     emoji: '👩‍🏫',
     features: ['Course Builder', 'Analytics', 'Student Reports'],
-  },
-  {
-    id: 'admin',
-    title: 'Administrator',
-    subtitle: 'Management',
-    description: 'System management, reports, and user control',
-    icon: Settings,
-    path: '/admin',
-    gradient: 'from-student-purple via-admin-primary to-student-blue',
-    shadowClass: 'shadow-glow-purple',
-    emoji: '⚙️',
-    features: ['User Management', 'System Reports', 'Full Control'],
   },
 ];
 
@@ -125,7 +113,7 @@ const RoleSelection: React.FC = () => {
           </div>
 
           {/* Role selection cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 w-full max-w-6xl mb-12">
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 w-full max-w-5xl mb-12">
             {roles.map((role, index) => (
               <button
                 key={role.id}
