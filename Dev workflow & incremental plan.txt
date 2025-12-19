@@ -1,0 +1,32 @@
+Dev workflow & incremental plan
+
+Create a small Express server skeleton with route folders (auth, users, quizzes, courses, admin).
+Add a Mongo connection utility and a simple GET /health route.
+Implement mock routes returning static responses (so frontend can switch to API without DB first).
+Implement auth (register/login) + token middleware.
+Implement quiz endpoints + submit flow and persist to Mongo.
+Implement leaderboard points accumulation (update points on quiz submit).
+Implement progress endpoints and badge calculation.
+Add tests and basic Swagger/OpenAPI doc for endpoints.
+Deploy backend (e.g., Heroku/Render/Vercel serverless or DigitalOcean) and set VITE_API_BASE in frontend build.
+
+
+
+Integration notes for frontend
+
+Replace static arrays with fetch calls to endpoints above. Example:
+On StudentDashboard mount: GET ${API_BASE}/users/me/progress, GET ${API_BASE}/leaderboard?period=week, GET ${API_BASE}/videos?subject=...
+On Video click: use lesson.contentUrl returned by GET /lessons/:id
+For quizzes: GET /quizzes/:id then POST /quizzes/:id/submit
+Add a small client wrapper util (api.ts) that attaches Authorization header when token present and centralizes error handling.
+
+
+Minimum viable endpoints to unblock frontend quickly (priority)
+
+GET/api/subjects
+GET/api/courses and GET/api/courses/:id)
+GET/api/quizzes/:id
+POST/api/quizzes/:id/submit
+GET/api/leaderboard
+GET/api/users/id or user?
+GET/api/events
