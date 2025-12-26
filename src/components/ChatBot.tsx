@@ -27,21 +27,13 @@ const quickQuestions = [
   "What are the exam dates?",
 ];
 
-const botResponses: Record<string, string> = {
-  "how do i reset my password?": "To reset your password, go to the login page and click 'Forgot Password'. Enter your registered email address and you'll receive a reset link within a few minutes. If you don't receive it, check your spam folder or contact your administrator.",
-  "where can i find my grades?": "You can find your grades in the Student Dashboard under the 'Progress' tab. Each subject shows your current grade and recent quiz scores. You can also view detailed performance analytics.",
-  "how to contact my teacher?": "You can contact your teacher through the messaging feature in your dashboard. Go to 'Messages' and select your teacher from the list. You can also find their email in the course information section.",
-  "what are the exam dates?": "Exam dates are displayed in the Calendar section of your dashboard. You can view all upcoming exams, holidays, and important events there. Enable notifications to get reminders before exams.",
-  "default": "I'm here to help! I can assist you with questions about your courses, grades, schedules, and more. Feel free to ask anything related to your learning experience at LearnPal.",
-};
-
 export const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hi! 👋 I'm LearnPal Assistant. How can I help you today?",
+      content: "Hi! 👋 I'm Vidya. How can I help you today?",
       role: 'assistant',
       timestamp: new Date(),
     },
@@ -71,28 +63,45 @@ export const ChatBot: React.FC = () => {
     setInput('');
     setIsTyping(true);
 
-    // Simulate AI response delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+    try {
+      // Call Flask backend API
+      const response = await fetch('http://172.16.102.235:5000/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: text }),
+      });
 
-    const lowercaseText = text.toLowerCase();
-    let response = botResponses.default;
-    
-    for (const [key, value] of Object.entries(botResponses)) {
-      if (lowercaseText.includes(key.replace('?', ''))) {
-        response = value;
-        break;
+      if (!response.ok) {
+        throw new Error('Failed to get response from chatbot');
       }
+
+      const data = await response.json();
+      const botReply = data.reply || 'Sorry, I could not process your message.';
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: botReply,
+        role: 'assistant',
+        timestamp: new Date(),
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: 'Sorry, I encountered an error. Please try again later.',
+        role: 'assistant',
+        timestamp: new Date(),
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
     }
-
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      content: response,
-      role: 'assistant',
-      timestamp: new Date(),
-    };
-
-    setMessages(prev => [...prev, assistantMessage]);
-    setIsTyping(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
