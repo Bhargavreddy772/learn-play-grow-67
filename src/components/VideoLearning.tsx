@@ -78,6 +78,18 @@ interface VideoLearningProps {
 export const VideoLearning: React.FC<VideoLearningProps> = ({ className }) => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [videosState, setVideosState] = useState<Video[]>(videos);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const remote = await (await import('@/lib/api')).default.getVideos('u1');
+        if (remote && Array.isArray(remote)) setVideosState(remote);
+      } catch (err) {
+        // keep fallback videos
+      }
+    })();
+  }, []);
 
   const handlePlayVideo = (video: Video) => {
     if (!video.locked) {
@@ -114,10 +126,10 @@ export const VideoLearning: React.FC<VideoLearningProps> = ({ className }) => {
         </div>
       ) : (
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-student-purple to-student-blue aspect-video group cursor-pointer"
-          onClick={() => videos[2] && handlePlayVideo(videos[2])}
+          onClick={() => videosState[2] && handlePlayVideo(videosState[2])}
         >
           <img
-            src={videos[2]?.thumbnail}
+            src={videosState[2]?.thumbnail}
             alt="Continue watching"
             className="w-full h-full object-cover opacity-50 group-hover:opacity-40 transition-opacity"
           />
@@ -126,11 +138,11 @@ export const VideoLearning: React.FC<VideoLearningProps> = ({ className }) => {
               <PlayCircle className="w-12 h-12 text-white" />
             </div>
             <p className="text-white font-display font-bold text-xl">Continue Watching</p>
-            <p className="text-white/80 text-sm mt-1">{videos[2]?.title}</p>
-            {videos[2]?.progress && (
+            <p className="text-white/80 text-sm mt-1">{videosState[2]?.title}</p>
+            {videosState[2]?.progress && (
               <div className="w-48 mt-4">
-                <Progress value={videos[2].progress} className="h-2 bg-white/20" />
-                <p className="text-white/70 text-xs text-center mt-1">{videos[2].progress}% complete</p>
+                <Progress value={videosState[2].progress} className="h-2 bg-white/20" />
+                <p className="text-white/70 text-xs text-center mt-1">{videosState[2].progress}% complete</p>
               </div>
             )}
           </div>
@@ -144,7 +156,7 @@ export const VideoLearning: React.FC<VideoLearningProps> = ({ className }) => {
           Video Lessons
         </h3>
         <div className="grid md:grid-cols-2 gap-4">
-          {videos.map((video) => (
+          {videosState.map((video) => (
             <div
               key={video.id}
               className={cn(
@@ -153,7 +165,7 @@ export const VideoLearning: React.FC<VideoLearningProps> = ({ className }) => {
                   ? 'border-muted opacity-60 cursor-not-allowed'
                   : 'border-border hover:border-student-purple hover:shadow-lg cursor-pointer hover:scale-[1.02]'
               )}
-              onClick={() => handlePlayVideo(video)}
+                  onClick={() => handlePlayVideo(video)}
             >
               {/* Thumbnail */}
               <div className="relative aspect-video">

@@ -33,21 +33,10 @@ const StudentDashboard: React.FC = () => {
     setMascotMessage(`Great choice! Let's explore ${subjectId}! 🚀`);
     setTimeout(() => {
       navigate(`/student/quiz`);
+import api from '@/lib/api';
     }, 500);
-  };
-
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate('/')}
-                className="font-display"
+  const [subjects, setSubjects] = useState<any[]>([]);
+  const [badges, setBadges] = useState<any[]>([]);
               >
                 <Home className="w-4 h-4 mr-2" />
                 Home
@@ -61,6 +50,24 @@ const StudentDashboard: React.FC = () => {
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Roles
               </Button>
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const dash = await api.getStudentDashboard('u1');
+        if (dash?.data) {
+          setSubjects(dash.data.subjects || []);
+          setBadges(dash.data.badges || []);
+        } else {
+          const s = await api.getSubjects('u1');
+          const b = await api.getBadges('u1');
+          setSubjects(s || []);
+          setBadges(b || []);
+        }
+      } catch (err) {
+        console.warn('Failed to load dashboard data', err);
+      }
+    })();
+  }, []);
             </div>
             
             <div className="flex items-center gap-4">

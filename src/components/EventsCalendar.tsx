@@ -14,7 +14,7 @@ interface CalendarEvent {
   description?: string;
 }
 
-const events: CalendarEvent[] = [
+const initialEvents: CalendarEvent[] = [
   { id: '1', date: new Date(2025, 11, 25), title: 'Christmas Holiday', type: 'holiday', description: 'School closed' },
   { id: '2', date: new Date(2025, 11, 26), title: 'Boxing Day', type: 'holiday', description: 'School closed' },
   { id: '3', date: new Date(2025, 11, 20), title: 'Math Final Exam', type: 'exam', description: 'Chapters 1-10' },
@@ -55,6 +55,7 @@ interface EventsCalendarProps {
 
 export const EventsCalendar: React.FC<EventsCalendarProps> = ({ className, compact = false }) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [eventsState, setEventsState] = useState<CalendarEvent[]>(initialEvents);
 
   const getEventsForDate = (date: Date) => {
     return events.filter(
@@ -67,7 +68,20 @@ export const EventsCalendar: React.FC<EventsCalendarProps> = ({ className, compa
 
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
 
-  const eventDates = events.map((e) => e.date);
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const remote = await (await import('@/lib/api')).default.getEvents();
+        if (remote && Array.isArray(remote)) {
+          setEventsState(remote.map((r: any) => ({ ...r, date: new Date(r.date) })));
+        }
+      } catch (err) {
+        // keep initial events
+      }
+    })();
+  }, []);
+
+  const eventDates = eventsState.map((e) => e.date);
 
   const modifiers = {
     event: eventDates,
@@ -157,7 +171,7 @@ export const EventsCalendar: React.FC<EventsCalendarProps> = ({ className, compa
               Upcoming Events
             </h4>
             <div className="space-y-2 max-h-40 overflow-y-auto">
-              {events
+              {eventsState
                 .filter((e) => e.date >= new Date())
                 .sort((a, b) => a.date.getTime() - b.date.getTime())
                 .slice(0, 5)

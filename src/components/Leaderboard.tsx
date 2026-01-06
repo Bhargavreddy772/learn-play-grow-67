@@ -11,7 +11,9 @@ interface LeaderboardEntry {
   isCurrentUser?: boolean;
 }
 
-const leaderboardData: LeaderboardEntry[] = [
+import api from '@/lib/api';
+
+const initialLeaderboard: LeaderboardEntry[] = [
   { rank: 1, name: 'Emma Watson', avatar: '👸', points: 2450, streak: 15 },
   { rank: 2, name: 'Noah Smith', avatar: '🧑‍🎓', points: 2280, streak: 12 },
   { rank: 3, name: 'Olivia Brown', avatar: '👧', points: 2150, streak: 10 },
@@ -48,6 +50,17 @@ const getRankBackground = (rank: number) => {
 };
 
 export const Leaderboard: React.FC = () => {
+  const [data, setData] = React.useState<LeaderboardEntry[]>(initialLeaderboard);
+
+  React.useEffect(() => {
+    (async () => {
+      const remote = await api.getLeaderboard(7);
+      if (remote && Array.isArray(remote)) {
+        setData(remote.map((r: any, i: number) => ({ rank: i + 1, ...r })));
+      }
+    })();
+  }, []);
+
   return (
     <div className="bg-card rounded-3xl border border-border p-6 shadow-lg">
       {/* Header */}
@@ -100,7 +113,7 @@ export const Leaderboard: React.FC = () => {
 
       {/* Full List */}
       <div className="space-y-2">
-        {leaderboardData.map((entry) => (
+        {data.map((entry) => (
           <div
             key={entry.rank}
             className={cn(
