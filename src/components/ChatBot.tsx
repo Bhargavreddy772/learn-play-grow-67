@@ -13,6 +13,9 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// This is backend api endpoint make changes as backend changes
+const backend_api = 'http://172.16.102.67:5000/message';
+
 interface Message {
   id: string;
   content: string;
@@ -20,12 +23,6 @@ interface Message {
   timestamp: Date;
 }
 
-const quickQuestions = [
-  "How do I reset my password?",
-  "Where can I find my grades?",
-  "How to contact my teacher?",
-  "What are the exam dates?",
-];
 
 export const ChatBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,11 +38,11 @@ export const ChatBot: React.FC = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
+    // Scroll latest message into view smoothly when messages change
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const handleSend = async (messageText?: string) => {
@@ -65,7 +62,7 @@ export const ChatBot: React.FC = () => {
 
     try {
       // Call Flask backend API
-      const response = await fetch('http://172.16.102.235:5000/message', {
+      const response = await fetch(backend_api, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,26 +207,9 @@ export const ChatBot: React.FC = () => {
                   </div>
                 </div>
               )}
+              <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
-
-          {/* Quick Questions */}
-          {messages.length <= 1 && (
-            <div className="px-4 pb-2">
-              <p className="text-xs text-muted-foreground mb-2">Quick questions:</p>
-              <div className="flex flex-wrap gap-1.5">
-                {quickQuestions.map((q, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSend(q)}
-                    className="text-xs px-2.5 py-1.5 rounded-full bg-muted hover:bg-muted/80 text-foreground transition-colors"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Input */}
           <div className="p-4 border-t border-border bg-background">
