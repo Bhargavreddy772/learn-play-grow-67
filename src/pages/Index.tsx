@@ -1,7 +1,7 @@
-import RoleSelection from './RoleSelection';
+import Home from "./Home";
 
 const Index = () => {
-  return <RoleSelection />;
+  return <Home />;
 };
 
 export default Index;
