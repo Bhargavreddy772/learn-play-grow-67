@@ -1,34 +1,40 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { 
-  Menu, X, GraduationCap, BookOpen, Users, Award, 
-  ChevronDown, LogIn, UserPlus 
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { SignInModal } from '@/components/SignInModal';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+
+import {
+  Menu,
+  X,
+  GraduationCap,
+  BookOpen,
+  Users,
+  Award,
+  ChevronDown,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { 
-    label: 'Courses', 
-    href: '#courses',
+  {
+    label: "Courses",
+    href: "#courses",
     icon: BookOpen,
     dropdown: [
-      { label: 'Mathematics', href: '#' },
-      { label: 'English', href: '#' },
-      { label: 'Science', href: '#' },
-      { label: 'Art & Music', href: '#' },
-    ]
+      { label: "Mathematics", href: "#" },
+      { label: "English", href: "#" },
+      { label: "Science", href: "#" },
+      { label: "Art & Music", href: "#" },
+    ],
   },
-  { label: 'About Us', href: '#about', icon: Users },
-  { label: 'Achievements', href: '#achievements', icon: Award },
-  { label: 'Contact', href: '#contact', icon: GraduationCap },
+  { label: "About Us", href: "#about", icon: Users },
+  { label: "Achievements", href: "#achievements", icon: Award },
+  { label: "Contact", href: "#contact", icon: GraduationCap },
 ];
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [showSignIn, setShowSignIn] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -51,26 +57,30 @@ export const Navbar: React.FC = () => {
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => link.dropdown && setActiveDropdown(link.label)}
+                onMouseEnter={() =>
+                  link.dropdown && setActiveDropdown(link.label)
+                }
                 onMouseLeave={() => setActiveDropdown(null)}
               >
                 <a
                   href={link.href}
                   className={cn(
-                    'flex items-center gap-2 px-4 py-2 rounded-lg text-foreground/80 hover:text-foreground hover:bg-muted transition-all font-medium',
-                    link.dropdown && 'cursor-pointer'
+                    "flex items-center gap-2 px-4 py-2 rounded-lg text-foreground/80 hover:text-foreground hover:bg-muted transition-all font-medium",
+                    link.dropdown && "cursor-pointer"
                   )}
                 >
                   <link.icon className="w-4 h-4" />
                   {link.label}
                   {link.dropdown && (
-                    <ChevronDown className={cn(
-                      'w-4 h-4 transition-transform',
-                      activeDropdown === link.label && 'rotate-180'
-                    )} />
+                    <ChevronDown
+                      className={cn(
+                        "w-4 h-4 transition-transform",
+                        activeDropdown === link.label && "rotate-180"
+                      )}
+                    />
                   )}
                 </a>
-                
+
                 {/* Dropdown */}
                 {link.dropdown && activeDropdown === link.label && (
                   <div className="absolute top-full left-0 mt-1 w-48 bg-card border border-border rounded-xl shadow-xl py-2 animate-fade-in">
@@ -94,21 +104,20 @@ export const Navbar: React.FC = () => {
             <Button
               variant="ghost"
               className="font-semibold"
-              onClick={() => setShowSignIn(true)}
+              onClick={() => navigate("/login")}
             >
               <LogIn className="w-4 h-4 mr-2" />
               Sign In
             </Button>
+
             <Button
               className="bg-gradient-to-r from-student-blue to-student-purple hover:opacity-90 text-white font-semibold shadow-lg"
-              onClick={() => setShowSignIn(true)}
+              onClick={() => navigate("/signup")}
             >
               <UserPlus className="w-4 h-4 mr-2" />
               Get Started Free
             </Button>
           </div>
-          
-          <SignInModal isOpen={showSignIn} onClose={() => setShowSignIn(false)} />
 
           {/* Mobile menu button */}
           <button
@@ -134,18 +143,26 @@ export const Navbar: React.FC = () => {
                   {link.label}
                 </a>
               ))}
+
               <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
                 <Button
                   variant="outline"
                   className="w-full justify-center"
-                  onClick={() => { setIsOpen(false); setShowSignIn(true); }}
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigate("/login");
+                  }}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
                   Sign In
                 </Button>
+
                 <Button
                   className="w-full justify-center bg-gradient-to-r from-student-blue to-student-purple text-white"
-                  onClick={() => { setIsOpen(false); setShowSignIn(true); }}
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigate("/signup");
+                  }}
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
                   Get Started Free

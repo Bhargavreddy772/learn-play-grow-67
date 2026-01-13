@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 async function safeGet(path: string) {
   try {
@@ -62,6 +62,12 @@ export async function submitQuiz(id: string, body: any) {
     console.warn('submitQuiz failed', err);
     return null;
   }
+}
+
+export async function apiGet<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }
 
 export default { getStudentDashboard, getSubjects, getBadges, getVideos, getEvents, getLeaderboard, getQuiz, submitQuiz };
